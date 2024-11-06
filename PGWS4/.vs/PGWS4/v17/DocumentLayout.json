@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
+              "RelativeDocumentMoniker": "PGWS4\\main.cpp",
+              "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
+              "RelativeToolTip": "PGWS4\\main.cpp",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAAEEAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-06T02:15:26.063Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
