@@ -248,7 +248,7 @@ int WINAPI Winmain(HINSTANCE, HINSTANCE, LPSTR, int)
 	UINT64 _fenceVal = 0;
 	result = _dev->CreateFence(_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
 
-	float frame = 255;
+	float frame = 120;
 	float time = 0;
 	float oneCycleTime = 6;
 	float HalfCycleTime = oneCycleTime / 2;
