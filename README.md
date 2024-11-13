@@ -36,6 +36,10 @@
 ## 第9回
 ![第9回の結果](Gradation.mp4)
 
+
+https://github.com/user-attachments/assets/42d82123-96b7-4597-bb62-b7b7fd285954
+
+
 ## 第10回
 ![第10回の結果](???.png)
 
