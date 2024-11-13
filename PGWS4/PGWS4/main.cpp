@@ -41,6 +41,19 @@ LRESULT WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 //デバッグモードではコンソールアプリケーション用の main 関数がエントリーポイント
 //リリースモードではGUIアプリケーションのエントリーポイントである WinMain
 #ifdef _DEBUG
+void EnableDebugLayer()
+{
+	ID3D12Debug* debugLayer = nullptr;
+	HRESULT result = D3D12GetDebugInterface(IID_PPV_ARGS(&debugLayer));
+
+	if (!SUCCEEDED(result)) return;
+
+	debugLayer->EnableDebugLayer();//デバッグレイヤーを有効化
+	debugLayer->Release();//有効化したらインターフェース解放
+}
+#endif//_DEBUG
+
+#ifdef _DEBUG
 int main()
 {
 	#else
@@ -84,12 +97,11 @@ int main()
 		w.hInstance,//呼び出しアプリケーションハンドル
 		nullptr);//追加パラメータ
 
-	HRESULT D3D12CreateDevice(
-		IUnknown * pAdapter, //ひとまずは nullptr でOK
-		D3D_FEATURE_LEVEL MinimumFeatureLevel, //最低限必要なフューチャーレベル
-		REFIID riid,
-		void** ppDevice
-	);
+#ifdef _DEBUG
+	//デバッグレイヤー ON
+	EnableDebugLayer();
+#endif
+
 
 	D3D_FEATURE_LEVEL levels[] =
 	{
@@ -98,6 +110,23 @@ int main()
 		D3D_FEATURE_LEVEL_11_1,
 		D3D_FEATURE_LEVEL_11_0,
 	};
+
+
+#ifdef _DEBUG
+	auto result = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&_dxgiFactory));
+#else
+	auto result = CreateDXGIFactory1(IID_PPV_ARGS(&_dxgiFactory));
+#endif
+
+
+	HRESULT D3D12CreateDevice(
+		IUnknown * pAdapter, //ひとまずは nullptr でOK
+		D3D_FEATURE_LEVEL MinimumFeatureLevel, //最低限必要なフューチャーレベル
+		REFIID riid,
+		void** ppDevice
+	);
+
+	
 
 	HRESULT CreateSwapChainForHwnd(
 		IUnknown * pDevice,
@@ -108,9 +137,6 @@ int main()
 		IDXGISwapChain1 * ppSwapChain
 	);
 
-
-
-	auto result = CreateDXGIFactory1(IID_PPV_ARGS(&_dxgiFactory));
 	//アダプターの列挙用
 	std::vector <IDXGIAdapter*> adapters;
 	//ここに特定の名前を持つアダプターオブジェクトが入る
@@ -211,6 +237,11 @@ int main()
 
 	}
 
+	ID3D12Fence* _fence = nullptr;
+	UINT64 _fenceVal = 0;
+	result = _dev->CreateFence(_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
+
+
 	ShowWindow(hwnd, SW_SHOW);
 
 	//メッセージループ
@@ -228,6 +259,54 @@ int main()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+
+		//DirectX処理
+		auto bbIdx = _swapchain->GetCurrentBackBufferIndex();
+
+		D3D12_RESOURCE_BARRIER BarrierDesc = {};
+		BarrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;//遷移
+		BarrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		BarrierDesc.Transition.pResource = _backBuffers[bbIdx];//バックバッファーリソース
+		BarrierDesc.Transition.Subresource = 0;
+		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;//直前はPRESENT状態
+		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;//今から RT 状態
+		_cmdList->ResourceBarrier(1, &BarrierDesc);//バリア指定実行
+
+		auto rtvH = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
+		rtvH.ptr += bbIdx * _dev->GetDescriptorHandleIncrementSize(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		_cmdList->OMSetRenderTargets(1, &rtvH, true, nullptr);
+
+		//画面クリア
+		float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+		_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+
+		//前後だけ入れ替える
+		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+		_cmdList->ResourceBarrier(1, &BarrierDesc);
+
+		//命令のクローズ
+		_cmdList->Close();
+
+		//コマンドリストの実行
+		ID3D12CommandList* cmdList[] = { _cmdList };
+		_cmdQueue->ExecuteCommandLists(1, cmdList);
+
+		_cmdQueue->Signal(_fence, ++_fenceVal);
+
+		if (_fence->GetCompletedValue() != _fenceVal) {
+			auto event = CreateEvent(nullptr, false, false, nullptr);
+			_fence->SetEventOnCompletion(_fenceVal, event);
+			WaitForSingleObject(event, INFINITE);
+			CloseHandle(event);
+		}
+
+		_cmdAllocator->Reset();//キューをクリア
+		_cmdList->Reset(_cmdAllocator, nullptr);//再びコマンドリストをためる準備
+
+		//フリップ
+		_swapchain->Present(1, 0);
 	}
 
 	//もうこのクラスは使わないので登録解除する
