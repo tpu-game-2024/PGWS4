@@ -3,6 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h> 
 #include <vector>
+#include <algorithm> // std::maxとstd::minを使うため
 #ifdef _DEBUG //デバッグビルド時にのみ _DEBUG 起動
 #include <iostream>
 #endif
@@ -52,6 +53,18 @@ void EnableDebugLayer()
 	debugLayer->Release();//有効化したらインターフェース解放
 }
 #endif//_DEBUG
+
+
+//-----------------------------------------------------------
+
+// saturate関数の実装
+float saturate(float x) {
+	if (x < 0.0f) return 0.0f;
+	if (x > 1.0f) return 1.0f;
+	return x;
+}
+
+//-----------------------------------------------------------
 
 #ifdef _DEBUG
 int main()
@@ -277,8 +290,26 @@ int main()
 			D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 		_cmdList->OMSetRenderTargets(1, &rtvH, true, nullptr);
 
+		//-------------------------------------------------------------------
+		
+		// タイマーの設定 (tの更新)
+		static float t = 0.0f;
+		float deltaTime = 0.016f;
+		t += deltaTime; // 毎フレーム進める
+
+		// t を 0.0 から 1.0 の範囲に制限（fmodで周期的にリセット）
+		t = fmod(t, 1.0f);
+
+		// 色の計算
+		float red = saturate(abs(6 * t - 3) - 1);
+		float green = saturate(-abs(6 * t - 2) + 2);
+		float blue = saturate(-abs(6 * t - 4) + 2);
+
+		float clearColor[] = { red, green, blue, 1.0f };
+
+
 		//画面クリア
-		float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+		//float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
 		_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 
 		//前後だけ入れ替える
