@@ -5,7 +5,14 @@
       <FullPath>D:\ワークショップ3\PGWS4\PGWS4\x64\Debug\PGWS4.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\ワークショップ3\PGWS4\PGWS4\x64\Debug\BasicVetexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\ワークショップ3\PGWS4\PGWS4\x64\Debug\BasicPixelShader.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

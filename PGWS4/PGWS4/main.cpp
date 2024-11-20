@@ -1,8 +1,10 @@
 ﻿#include <Windows.h>//ウィンドウの作成や操作、メッセージ処理などのOSレベルの操作
 #include <tchar.h>//_Tマクロを利用しマルチバイト文字セットとUnicode文字セットの両方をサポートするため
 #include <d3d12.h>
-#include <dxgi1_6.h> 
+#include <dxgi1_6.h>
+#include <DIrectXMath.h>
 #include <vector>
+#include <d3dcompiler.h>
 #include <algorithm> // std::maxとstd::minを使うため
 #ifdef _DEBUG //デバッグビルド時にのみ _DEBUG 起動
 #include <iostream>
@@ -10,8 +12,10 @@
 
 #pragma comment (lib, "d3d12.lib")
 #pragma comment (lib, "dxgi.lib")
+#pragma comment (lib, "d3dcompiler.lib")
 
 using namespace std;
+using namespace DirectX;
 
 // @brief コンソール画面にフォーマット付き文字列を表示
 // @param format フォーマット (%d とか %f とかの)
@@ -225,6 +229,144 @@ int main()
 		&swapchainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&_swapchain);
 
+	D3D12_HEAP_PROPERTIES heapprop = {};
+	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;
+	heapprop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	heapprop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+
+	XMFLOAT3 vertices[] = {
+		{-1.0f,-1.0f,0.0f} ,//左下
+		{-1.0f,+1.0f,0.0f} ,//左上
+		{+1.0f,-1.0f,0.0f} ,//右下
+	};
+
+
+	D3D12_RESOURCE_DESC resdesc = {};
+	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resdesc.Width = sizeof(vertices);//頂点が入るだけのサイズ
+	resdesc.Height = 1;
+	resdesc.DepthOrArraySize = 1;
+	resdesc.MipLevels = 1;
+	resdesc.Format = DXGI_FORMAT_UNKNOWN;
+	resdesc.SampleDesc.Count = 1;
+	resdesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	ID3D12Resource* vertBuff = nullptr;
+
+	result = _dev->CreateCommittedResource(
+		&heapprop,
+		D3D12_HEAP_FLAG_NONE,
+		&resdesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff));
+		
+	XMFLOAT3* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	std::copy(std::begin(vertices), std::end(vertices), vertMap);
+	vertBuff->Unmap(0, nullptr);
+
+	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();//バッファーの仮想アドレス
+	vbView.SizeInBytes = sizeof(vertices);//全バイト数
+	vbView.StrideInBytes = sizeof(vertices[0]);//１頂点あたりのバイト数
+
+	ID3DBlob* _vsBlob = nullptr;
+	ID3DBlob* _psBlob = nullptr;
+
+	ID3DBlob* errorBlob = nullptr;
+	result = D3DCompileFromFile(
+		L"BasicVertexShader.hlsl",//シェーダー名
+		nullptr, //define なし
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルードはデフォルト
+		"BasicVS", "vs_5_0", //関数はBasicVS、対象シェーダーはvs_5_0
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用および最適化なし
+		0,
+		&_vsBlob, &errorBlob);//エラー時はerrorBlob にメッセージが入る
+	if (FAILED(result)) {
+		if (result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)) {
+			::OutputDebugStringA("ファイルが見つかりません");
+		}
+		else {
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(), errstr.begin());
+			errstr += "\n";
+			OutputDebugStringA(errstr.c_str());
+		}
+		exit(1);
+	}
+
+	result = D3DCompileFromFile(
+		L"BasicPixelShader.hlsl",//シェーダー名
+		nullptr, //define なし
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルードはデフォルト
+		"BasicPS", "vs_5_0", //関数はBasicVS、対象シェーダーはvs_5_0
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用および最適化なし
+		0,
+		&_psBlob, &errorBlob);//エラー時はerrorBlob にメッセージが入る
+	if (FAILED(result)) {
+		if (result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)) {
+			::OutputDebugStringA("ファイルが見つかりません");
+		}
+		else {
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(), errstr.begin());
+			errstr += "\n";
+			OutputDebugStringA(errstr.c_str());
+		}
+		exit(1);
+	}
+
+	D3D12_INPUT_ELEMENT_DESC inputLayout[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+	};
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline = {};
+
+	gpipeline.pRootSignature = nullptr;
+
+	gpipeline.VS.pShaderBytecode = _vsBlob->GetBufferPointer();
+	gpipeline.VS.BytecodeLength = _vsBlob->GetBufferSize();
+	gpipeline.PS.pShaderBytecode = _psBlob->GetBufferPointer();
+	gpipeline.PS.BytecodeLength = _psBlob->GetBufferSize();
+	//デフォルトのサンプルマスクを表す定数 (0xffffffff)
+	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	gpipeline.RasterizerState.MultisampleEnable = false;
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//中身を塗りつぶす
+	gpipeline.RasterizerState.DepthClipEnable = true;//深度方向のクリッピングは有効に
+	gpipeline.BlendState.AlphaToCoverageEnable = false;
+	gpipeline.BlendState.IndependentBlendEnable = false;
+
+	D3D12_RENDER_TARGET_BLEND_DESC renderTrgetBlendDesc = {};
+	//ひとまず加算や乗算やαブレンディングは使用しない
+	renderTrgetBlendDesc.BlendEnable = false;
+	renderTrgetBlendDesc.LogicOpEnable = false;
+	renderTrgetBlendDesc.RenderTargetWriteMask =
+		D3D12_COLOR_WRITE_ENABLE_ALL;
+
+	gpipeline.BlendState.RenderTarget[0] = renderTrgetBlendDesc;
+
+	gpipeline.InputLayout.pInputElementDescs = inputLayout;//レイアウト先頭アドレス
+	gpipeline.InputLayout.NumElements = _countof(inputLayout);//レイアウト配列の要素数
+
+	gpipeline.IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
+	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;//三角形で構成
+
+	gpipeline.NumRenderTargets = 1;
+	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0～1に正規化されたRGBA
+
+	gpipeline.SampleDesc.Count = 1;
+	gpipeline.SampleDesc.Quality = 0;
 
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダ―ターゲットビュー
@@ -256,6 +398,9 @@ int main()
 
 
 	ShowWindow(hwnd, SW_SHOW);
+
+	
+
 
 	//メッセージループ
 	while (true)
@@ -307,6 +452,7 @@ int main()
 
 		float clearColor[] = { red, green, blue, 1.0f };
 
+		//-------------------------------------------------------------------
 
 		//画面クリア
 		//float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };

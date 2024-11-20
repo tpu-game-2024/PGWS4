@@ -5,6 +5,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicVetexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +34,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BasicPixelShader.hlsl",
+              "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl",
+              "RelativeDocumentMoniker": "PGWS4\\BasicPixelShader.hlsl",
+              "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl",
+              "RelativeToolTip": "PGWS4\\BasicPixelShader.hlsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2024-11-20T03:21:47.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BasicVetexShader.hlsl",
+              "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl",
+              "RelativeDocumentMoniker": "PGWS4\\BasicVetexShader.hlsl",
+              "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl",
+              "RelativeToolTip": "PGWS4\\BasicVetexShader.hlsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2024-11-20T03:19:08.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
               "RelativeDocumentMoniker": "PGWS4\\main.cpp",
               "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
               "RelativeToolTip": "PGWS4\\main.cpp",
-              "ViewState": "AgIAABsBAAAAAAAAAAAiwDgBAABAAAAAAAAAAA==",
+              "ViewState": "AgIAADsBAAAAAAAAAAAqwFIBAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-06T02:15:26.063Z",
               "EditorCaption": ""
