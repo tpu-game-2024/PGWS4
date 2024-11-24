@@ -5,7 +5,14 @@
       <FullPath>D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\PGWS_DirectX12.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicVertexShader.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

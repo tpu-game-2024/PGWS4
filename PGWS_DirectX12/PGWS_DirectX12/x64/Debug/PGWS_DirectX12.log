@@ -1,3 +1,5 @@
-﻿  ソース.cpp
-D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\PGWS_DirectX12\ソース.cpp(239,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+﻿  compilation object save succeeded; see D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicPixelShader.cso
+  compilation object save succeeded; see D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicVertexShader.cso
+  ソース.cpp
+D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\PGWS_DirectX12\ソース.cpp(227,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   PGWS_DirectX12.vcxproj -> D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\PGWS_DirectX12.exe
