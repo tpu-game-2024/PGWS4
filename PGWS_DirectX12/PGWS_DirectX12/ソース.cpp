@@ -245,9 +245,10 @@ int WINAPI Winmain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ShowWindow(hwnd, SW_SHOW);
 
 	XMFLOAT3 vertices[] = {
-		{-1.0f,-1.0f,0.0f}, // 左下
-		{-1.0f,+1.0f,0.0f}, // 左上
-		{+1.0f,-1.0f,0.0f}, // 右下
+		{-0.4f,-0.7f,0.0f}, // 左下
+		{-0.4f,+0.7f,0.0f}, // 左上
+		{+0.4f,-0.7f,0.0f}, // 右下
+		{+0.4f,+0.7f,0.0f}, // 右上
 	};
 
 	D3D12_HEAP_PROPERTIES heapprop = {};
@@ -284,6 +285,34 @@ int WINAPI Winmain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress(); // バッファーの仮想アドレス
 	vbView.SizeInBytes = sizeof(vertices); // 全バイト数
 	vbView.StrideInBytes = sizeof(vertices[0]); // 1頂点当たりのバイト数
+
+	unsigned short indices[] = {
+	0,1,2,
+	2,1,3
+	};
+
+	ID3D12Resource* idxBuff = nullptr;
+	// 設定は、バッファーのサイズ以外、頂点バッファーの設定を使いまわしていよい
+	resdesc.Width = sizeof(indices);
+	result = _dev->CreateCommittedResource(
+		&heapprop,
+		D3D12_HEAP_FLAG_NONE,
+		&resdesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&idxBuff));
+	
+	// 作ったバッファーにインデックスデータをコピー
+	unsigned short* mappendIdx = nullptr;
+	idxBuff->Map(0, nullptr, (void**)&mappendIdx);
+	std::copy(std::begin(indices), std::end(indices), mappendIdx);
+	idxBuff->Unmap(0, nullptr);
+
+	// インデックスバッファービューを作成
+	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	ibView.BufferLocation = idxBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeof(indices);
 
 	ID3DBlob* _vsBlob = nullptr;
 	ID3DBlob* _psBlob = nullptr;
@@ -495,8 +524,9 @@ int WINAPI Winmain(HINSTANCE, HINSTANCE, LPSTR, int)
 		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		_cmdList->IASetVertexBuffers(0, 1, &vbView);
+		_cmdList->IASetIndexBuffer(&ibView);
 
-		_cmdList->DrawInstanced(3, 1, 0, 0);
+		_cmdList->DrawIndexedInstanced(6, 1, 0, 0,0);
 
 		// 前後だけ入れ替える
 	/*	BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
