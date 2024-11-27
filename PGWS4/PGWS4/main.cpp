@@ -278,13 +278,15 @@ int main()
 
 	ID3DBlob* errorBlob = nullptr;
 	result = D3DCompileFromFile(
-		L"BasicVertexShader.hlsl",//シェーダー名
+		L"BasicVetexShader.hlsl",//シェーダー名
 		nullptr, //define なし
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルードはデフォルト
 		"BasicVS", "vs_5_0", //関数はBasicVS、対象シェーダーはvs_5_0
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用および最適化なし
 		0,
 		&_vsBlob, &errorBlob);//エラー時はerrorBlob にメッセージが入る
+	
+	
 	if (FAILED(result)) {
 		if (result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)) {
 			::OutputDebugStringA("ファイルが見つかりません");
@@ -304,7 +306,7 @@ int main()
 		L"BasicPixelShader.hlsl",//シェーダー名
 		nullptr, //define なし
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルードはデフォルト
-		"BasicPS", "vs_5_0", //関数はBasicVS、対象シェーダーはvs_5_0
+		"BasicPS", "ps_5_0", //関数はBasicPS、対象シェーダーはps_5_0
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用および最適化なし
 		0,
 		&_psBlob, &errorBlob);//エラー時はerrorBlob にメッセージが入る
@@ -368,6 +370,45 @@ int main()
 	gpipeline.SampleDesc.Count = 1;
 	gpipeline.SampleDesc.Quality = 0;
 
+	D3D12_ROOT_SIGNATURE_DESC rootSibnatureDesc = {};
+	rootSibnatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	
+	ID3DBlob* rootSigBlob = nullptr;
+	result = D3D12SerializeRootSignature(
+		&rootSibnatureDesc,
+		D3D_ROOT_SIGNATURE_VERSION_1_0,
+		&rootSigBlob,
+		&errorBlob);
+
+
+	ID3D12RootSignature* rootsignature = nullptr;
+	result = _dev->CreateRootSignature(
+		0,
+		rootSigBlob->GetBufferPointer(),
+		rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&rootsignature));
+	rootSigBlob->Release();
+
+	gpipeline.pRootSignature = rootsignature;
+
+	ID3D12PipelineState* _pipelinestate = nullptr;
+	result = _dev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&_pipelinestate));
+
+	D3D12_VIEWPORT viewport = {};
+	viewport.Width = window_width;
+	viewport.Height = window_Height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MaxDepth = 1.0f;
+	viewport.MinDepth = 0.0f;
+
+	D3D12_RECT scissorrect = {};
+	scissorrect.top = 0;
+	scissorrect.left = 0;
+	scissorrect.right = scissorrect.left + window_width;
+	scissorrect.bottom = scissorrect.top + window_Height;
+
+
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダ―ターゲットビュー
 	heapDesc.NodeMask = 0;
@@ -421,6 +462,8 @@ int main()
 		//DirectX処理
 		auto bbIdx = _swapchain->GetCurrentBackBufferIndex();
 
+		_cmdList->SetPipelineState(_pipelinestate);
+
 		D3D12_RESOURCE_BARRIER BarrierDesc = {};
 		BarrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;//遷移
 		BarrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -462,6 +505,14 @@ int main()
 		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 		_cmdList->ResourceBarrier(1, &BarrierDesc);
+
+
+		_cmdList->SetGraphicsRootSignature(rootsignature);
+		_cmdList->RSSetViewports(1, &viewport);
+		_cmdList->RSSetScissorRects(1, &scissorrect);
+		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_cmdList->IASetVertexBuffers(0, 1, &vbView);
+		_cmdList->DrawInstanced(3, 1, 0, 0);
 
 		//命令のクローズ
 		_cmdList->Close();
