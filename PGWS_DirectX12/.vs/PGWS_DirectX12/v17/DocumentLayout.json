@@ -7,19 +7,16 @@
       "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\\u30BD\u30FC\u30B9.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\DirectXTex-main\\Common\\d3dx12.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\BasicVertexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicShaderHeader.hlsli||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\BasicShaderHeader.hlsli||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\BasicVertexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{AF03A9CF-0E2B-4E34-A5E4-2766F37A6CAE}|PGWS_DirectX12\\PGWS_DirectX12.vcxproj|solutionrelative:PGWS_DirectX12\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,20 +26,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "d3dx12.h",
-              "DocumentMoniker": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\DirectXTex-main\\Common\\d3dx12.h",
-              "RelativeDocumentMoniker": "..\\..\\DirectXTex-main\\Common\\d3dx12.h",
-              "ToolTip": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\DirectXTex-main\\Common\\d3dx12.h",
-              "RelativeToolTip": "..\\..\\DirectXTex-main\\Common\\d3dx12.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-04T06:51:34.967Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -51,27 +36,40 @@
               "RelativeDocumentMoniker": "PGWS_DirectX12\\\u30BD\u30FC\u30B9.cpp",
               "ToolTip": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\\u30BD\u30FC\u30B9.cpp",
               "RelativeToolTip": "PGWS_DirectX12\\\u30BD\u30FC\u30B9.cpp",
-              "ViewState": "AgIAAMsBAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgDAAAAAAAAAAAAAC0DAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-13T15:09:23.982Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "BasicShaderHeader.hlsli",
               "DocumentMoniker": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicShaderHeader.hlsli",
               "RelativeDocumentMoniker": "PGWS_DirectX12\\BasicShaderHeader.hlsli",
               "ToolTip": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicShaderHeader.hlsli",
               "RelativeToolTip": "PGWS_DirectX12\\BasicShaderHeader.hlsli",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-11-27T04:41:28.562Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "BasicVertexShader.hlsl",
+              "DocumentMoniker": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl",
+              "RelativeDocumentMoniker": "PGWS_DirectX12\\BasicVertexShader.hlsl",
+              "ToolTip": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl",
+              "RelativeToolTip": "PGWS_DirectX12\\BasicVertexShader.hlsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2024-11-24T08:22:20.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "BasicPixelShader.hlsl",
               "DocumentMoniker": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicPixelShader.hlsl",
               "RelativeDocumentMoniker": "PGWS_DirectX12\\BasicPixelShader.hlsl",
@@ -80,19 +78,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
               "WhenOpened": "2024-11-24T16:59:00.662Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BasicVertexShader.hlsl",
-              "DocumentMoniker": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl",
-              "RelativeDocumentMoniker": "PGWS_DirectX12\\BasicVertexShader.hlsl",
-              "ToolTip": "D:\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\\u5927\u5B66\\\u6388\u696D\\\u4E09\u5E74\\\u30D7\u30ED\u30B0\u30E9\u30E0\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D7\u2163\\PGWS4\\PGWS_DirectX12\\PGWS_DirectX12\\BasicVertexShader.hlsl",
-              "RelativeToolTip": "PGWS_DirectX12\\BasicVertexShader.hlsl",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-11-24T08:22:20.405Z",
               "EditorCaption": ""
             }
           ]
