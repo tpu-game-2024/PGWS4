@@ -2,14 +2,17 @@
 #include <tchar.h>//_Tマクロを利用しマルチバイト文字セットとUnicode文字セットの両方をサポートするため
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <DIrectXMath.h>
+#include <DirectXMath.h>
 #include <vector>
+#include <string>
 #include <d3dcompiler.h>
+#include <DirectXTex.h>
 #include <algorithm> // std::maxとstd::minを使うため
 #ifdef _DEBUG //デバッグビルド時にのみ _DEBUG 起動
 #include <iostream>
 #endif
 
+#pragma comment(lib,"DirectXTex.lib")
 #pragma comment (lib, "d3d12.lib")
 #pragma comment (lib, "dxgi.lib")
 #pragma comment (lib, "d3dcompiler.lib")
@@ -630,6 +633,10 @@ int main()
 		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;//直前はPRESENT状態
 		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;//今から RT 状態
 		_cmdList->ResourceBarrier(1, &BarrierDesc);//バリア指定実行
+		//前後だけ入れ替える
+		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+
 
 		auto rtvH = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 		rtvH.ptr += bbIdx * _dev->GetDescriptorHandleIncrementSize(
@@ -658,26 +665,22 @@ int main()
 		//画面クリア
 		//float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
 		_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
-
-		//前後だけ入れ替える
-		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-		_cmdList->ResourceBarrier(1, &BarrierDesc);
-
-
+		
+		_cmdList->RSSetViewports(1, &viewport);
+		_cmdList->RSSetScissorRects(1, &scissorrect);
 		_cmdList->SetGraphicsRootSignature(rootsignature);
+
+		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_cmdList->IASetVertexBuffers(0, 1, &vbView);
+		_cmdList->IASetIndexBuffer(&ibView);
+
 		_cmdList->SetDescriptorHeaps(1, &texDescHeap);
 		_cmdList->SetGraphicsRootDescriptorTable(
 			0,
 			texDescHeap->GetGPUDescriptorHandleForHeapStart());
-		_cmdList->RSSetViewports(1, &viewport);
-		_cmdList->RSSetScissorRects(1, &scissorrect);
-		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_cmdList->IASetVertexBuffers(0, 1, &vbView);
-		_cmdList->IASetIndexBuffer(&ibView);
+		_cmdList->SetGraphicsRootSignature(rootsignature);
 		_cmdList->DrawIndexedInstanced(6, 1, 0, 0 , 0);
 		
-
 		//命令のクローズ
 		_cmdList->Close();
 
