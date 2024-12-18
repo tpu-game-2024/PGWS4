@@ -158,6 +158,15 @@ int main()
 		IDXGISwapChain1 * ppSwapChain
 	);
 
+	
+
+	
+
+	
+	
+
+
+	
 	//アダプターの列挙用
 	std::vector <IDXGIAdapter*> adapters;
 	//ここに特定の名前を持つアダプターオブジェクトが入る
@@ -192,11 +201,13 @@ int main()
 		}
 	}
 
+
 	result = _dev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(&_cmdAllocator));
 	result = _dev->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
 		_cmdAllocator, nullptr,
 		IID_PPV_ARGS(&_cmdList));
+
 
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc = {};
 
@@ -220,37 +231,30 @@ int main()
 	swapchainDesc.SampleDesc.Quality = 0;
 	swapchainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;
 	swapchainDesc.BufferCount = 2;
-
 	swapchainDesc.Scaling = DXGI_SCALING_STRETCH;
-
 	swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-
 	swapchainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
-
 	swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	result = _dxgiFactory->CreateSwapChainForHwnd(
-		_cmdQueue, hwnd,
-		&swapchainDesc, nullptr, nullptr,
+
+	result = _dxgiFactory->CreateSwapChainForHwnd(_cmdQueue,
+		hwnd,
+		&swapchainDesc,
+		nullptr,
+		nullptr,
 		(IDXGISwapChain1**)&_swapchain);
 
 
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダ―ターゲットビュー
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダーターゲットビューなので当然RTV
 	heapDesc.NodeMask = 0;
-	heapDesc.NumDescriptors = 2; //表裏の２つ
-	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	
+	heapDesc.NumDescriptors = 2;//表裏の２つ
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;//特に指定なし
 	ID3D12DescriptorHeap* rtvHeaps = nullptr;
 	result = _dev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&rtvHeaps));
-
 	DXGI_SWAP_CHAIN_DESC swcDesc = {};
 	result = _swapchain->GetDesc(&swcDesc);
-
 	std::vector<ID3D12Resource*> _backBuffers(swcDesc.BufferCount);
-	
-
-	D3D12_CPU_DESCRIPTOR_HANDLE handle
-		= rtvHeaps->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE handle = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 
 	////////
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
@@ -294,29 +298,13 @@ int main()
 		{{+0.4f,+0.7f,0.0f} , {1.0f, 0.0f}},
 	};
 
-	D3D12_HEAP_PROPERTIES heapprop = {};
-	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;
-	heapprop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-	heapprop.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-
-	D3D12_RESOURCE_DESC resdesc = {};
-	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resdesc.Width = sizeof(vertices);//頂点が入るだけのサイズ
-	resdesc.Height = 1;
-	resdesc.DepthOrArraySize = 1;
-	resdesc.MipLevels = 1;
-	resdesc.Format = DXGI_FORMAT_UNKNOWN;
-	resdesc.SampleDesc.Count = 1;
-	resdesc.Flags = D3D12_RESOURCE_FLAG_NONE;
-	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
 	ID3D12Resource* vertBuff = nullptr;
-
+	auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto resDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(vertices));
 	result = _dev->CreateCommittedResource(
-		&heapprop,
+		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&resdesc,
+		&resDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
@@ -344,11 +332,13 @@ int main()
 	};*/
 
 	ID3D12Resource* idxBuff = nullptr;
-	resdesc.Width = sizeof(indices);
+	//resdesc.Width = sizeof(indices);
+	heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	resDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(indices));
 	result = _dev->CreateCommittedResource(
-		&heapprop,
+		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&resdesc,
+		&resDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&idxBuff));
@@ -441,17 +431,23 @@ int main()
 	//デフォルトのサンプルマスクを表す定数 (0xffffffff)
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-	gpipeline.BlendState.AlphaToCoverageEnable = false;
-	gpipeline.BlendState.IndependentBlendEnable = false;
+	gpipeline.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	gpipeline.BlendState.RenderTarget->BlendEnable = true;
+	gpipeline.BlendState.RenderTarget->SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	gpipeline.BlendState.RenderTarget->DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	gpipeline.BlendState.RenderTarget->BlendOp = D3D12_BLEND_OP_ADD;
 
-	D3D12_RENDER_TARGET_BLEND_DESC renderTrgetBlendDesc = {};
+	//gpipeline.BlendState.AlphaToCoverageEnable = false;
+	//gpipeline.BlendState.IndependentBlendEnable = false;
+
+	/*D3D12_RENDER_TARGET_BLEND_DESC renderTrgetBlendDesc = {};
 	//ひとまず加算や乗算やαブレンディングは使用しない
 	renderTrgetBlendDesc.BlendEnable = false;
 	renderTrgetBlendDesc.LogicOpEnable = false;
 	renderTrgetBlendDesc.RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
-
-	gpipeline.BlendState.RenderTarget[0] = renderTrgetBlendDesc;
+		*/
+	//gpipeline.BlendState.RenderTarget[0] = renderTrgetBlendDesc;
 
 	gpipeline.RasterizerState.MultisampleEnable = false;
 	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
@@ -478,7 +474,8 @@ int main()
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;//三角形で構成
 
 	gpipeline.NumRenderTargets = 1;
-	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～1に正規化されたRGBA
+	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0～1に正規化されたRGBA
 
 	gpipeline.SampleDesc.Count = 1;
 	gpipeline.SampleDesc.Quality = 0;
@@ -489,37 +486,39 @@ int main()
 	D3D12_ROOT_SIGNATURE_DESC rootSibnatureDesc = {};
 	rootSibnatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-	D3D12_DESCRIPTOR_RANGE descTblRange = {};
-	descTblRange.NumDescriptors = 1;
-	descTblRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descTblRange.BaseShaderRegister = 0;
-	descTblRange.OffsetInDescriptorsFromTableStart =
-		D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	D3D12_DESCRIPTOR_RANGE descTblRange[2] = {};//テクスチャと定数の２つ
+	descTblRange[0].NumDescriptors = 1;//テクスチャひとつ
+	descTblRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//種別はテクスチャ
+	descTblRange[0].BaseShaderRegister = 0;//0番スロットから
+	descTblRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	descTblRange[1].NumDescriptors = 1;//定数ひとつ
+	descTblRange[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;//種別は定数
+	descTblRange[1].BaseShaderRegister = 0;//0番スロットから
+	descTblRange[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 
 	D3D12_ROOT_PARAMETER rootparam = {};
 	rootparam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootparam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootparam.DescriptorTable.pDescriptorRanges = &descTblRange;
-	rootparam.DescriptorTable.NumDescriptorRanges = 1;
+	rootparam.DescriptorTable.pDescriptorRanges = &descTblRange[0];//デスクリプタレンジのアドレス
+	rootparam.DescriptorTable.NumDescriptorRanges = 2;//デスクリプタレンジ数
+	rootparam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダから見える
 
 
 	rootSibnatureDesc.pParameters = &rootparam;
 	rootSibnatureDesc.NumParameters = 1;
 
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc.BorderColor =
-		D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
-	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;
-	samplerDesc.MinLOD = 0.0f;
-	samplerDesc.ShaderVisibility =
-		D3D12_SHADER_VISIBILITY_PIXEL;
-	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;//横繰り返し
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;//縦繰り返し
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;//奥行繰り返し
+	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;//ボーダーの時は黒
+	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;//補間しない(ニアレストネイバー)
+	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;//ミップマップ最大値
+	samplerDesc.MinLOD = 0.0f;//ミップマップ最小値
+	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;//オーバーサンプリングの際リサンプリングしない？
+	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//ピクセルシェーダからのみ可視
+
 
 	rootSibnatureDesc.pStaticSamplers = &samplerDesc;
 	rootSibnatureDesc.NumStaticSamplers = 1;
@@ -543,20 +542,7 @@ int main()
 	ID3D12PipelineState* _pipelinestate = nullptr;
 	result = _dev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&_pipelinestate));
 
-	D3D12_VIEWPORT viewport = {};
-	viewport.Width = window_width;
-	viewport.Height = window_Height;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	viewport.MaxDepth = 1.0f;
-	viewport.MinDepth = 0.0f;
-
-	D3D12_RECT scissorrect = {};
-	scissorrect.top = 0;
-	scissorrect.left = 0;
-	scissorrect.right = scissorrect.left + window_width;
-	scissorrect.bottom = scissorrect.top + window_Height;
-
+	
 
 	/*struct TexRGBA
 	{
@@ -581,15 +567,6 @@ int main()
 	texHeapProp.VisibleNodeMask = 0;
 	*/
 
-	D3D12_HEAP_PROPERTIES uploadHeapProp = {};
-
-	uploadHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
-	uploadHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-	uploadHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-
-	uploadHeapProp.CreationNodeMask = 0;
-	uploadHeapProp.VisibleNodeMask = 0;
-
 	/*D3D12_RESOURCE_DESC resDesc = {};
 	resDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -602,56 +579,20 @@ int main()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	resDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 	*/
-
-	D3D12_RESOURCE_DESC resDesc = {};
-	resDesc.Format = DXGI_FORMAT_UNKNOWN;
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;//単なるバッファとして
-	auto pixelsize = scratchImg.GetPixelsSize();
-	resDesc.Width = img->slicePitch;
-	resDesc.Height = 1;//
-	resDesc.DepthOrArraySize = 1;//
-	resDesc.MipLevels = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;//連続したデータですよ
-	resDesc.Flags = D3D12_RESOURCE_FLAG_NONE;//とくにフラグなし
-	resDesc.SampleDesc.Count = 1;//通常テクスチャなのでアンチェリしない
-	resDesc.SampleDesc.Quality = 0;//
-
-	ID3D12Resource* uploadbuff = nullptr;
-	result = _dev->CreateCommittedResource(
-		&uploadHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&uploadbuff)
-	);
-
-	uint8_t* mapforImg = nullptr;//image->pixelsと同じ型にする
-	result = uploadbuff->Map(0, nullptr, (void**)&mapforImg);//マップ
-	std::copy_n(img->pixels, img->slicePitch, mapforImg);//コピー
-	uploadbuff->Unmap(0, nullptr);
-
-	D3D12_TEXTURE_COPY_LOCATION src = {}, dst = {};
-	dst.pResource = texbuff;
-	dst.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-	dst.SubresourceIndex = 0;
-
-	src.pResource = uploadbuff;//中間バッファ
-	src.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;//フットプリント指定
-	D3D12_PLACED_SUBRESOURCE_FOOTPRINT footprint = {};
-	UINT nrow;
-	UINT64 rowsize, size;
-	auto desc = texbuff->GetDesc();
-	_dev->GetCopyableFootprints(&desc, 0, 1, 0, &footprint, &nrow, &rowsize, &size);
-	src.PlacedFootprint = footprint;
-	src.PlacedFootprint.Offset = 0;
-	src.PlacedFootprint.Footprint.Width = static_cast<UINT>(metadata.width);
-	src.PlacedFootprint.Footprint.Height = static_cast<UINT>(metadata.height);
-	src.PlacedFootprint.Footprint.Depth = static_cast<UINT>(metadata.depth);
-	src.PlacedFootprint.Footprint.RowPitch = static_cast<UINT>(AlignmentedSize(img->rowPitch, D3D12_TEXTURE_DATA_PITCH_ALIGNMENT));
-	src.PlacedFootprint.Footprint.Format = img->format;
-
 	
+	D3D12_VIEWPORT viewport = {};
+	viewport.Width = window_width;
+	viewport.Height = window_Height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MaxDepth = 1.0f;
+	viewport.MinDepth = 0.0f;
+
+	D3D12_RECT scissorrect = {};
+	scissorrect.top = 0;
+	scissorrect.left = 0;
+	scissorrect.right = scissorrect.left + window_width;
+	scissorrect.bottom = scissorrect.top + window_Height;
 
 
 	TexMetadata metadata = {};
