@@ -7,6 +7,7 @@
 #include <string>
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
+#include <d3dx12.h>
 #include <algorithm> // std::maxとstd::minを使うため
 #ifdef _DEBUG //デバッグビルド時にのみ _DEBUG 起動
 #include <iostream>
@@ -737,17 +738,28 @@ int main()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
+
+	auto basicHeapHandle = basicDescHeap->GetCPUDescriptorHandleForHeapStart();
 	_dev->CreateShaderResourceView(
 		texbuff,
 		&srvDesc,
-		texDescHeap->GetCPUDescriptorHandleForHeapStart()
+		basicHeapHandle
 	);
 
+	basicHeapHandle.ptr +=
+		_dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
+	cbvDesc.BufferLocation = constBuff->GetGPUVirtualAddress();
+	cbvDesc.SizeInBytes = static_cast<UINT>(constBuff->GetDesc().Width);
+	//定数バッファビューの作成
+	_dev->CreateConstantBufferView(&cbvDesc, basicHeapHandle);
 
+
+	MSG msg = {};//メッセージの種類やウィンドウハンドル、送信者などの情報
+	float angle = 0.0f;
 	//メッセージループ
 	while (true)
 	{
-		MSG msg;//メッセージの種類やウィンドウハンドル、送信者などの情報
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -759,11 +771,15 @@ int main()
 			break;
 		}
 
+		angle += 0.1f;
+		worldMat = XMMatrixRotationY(angle);
+		*mapMatrix = worldMat * viewMat * projMat;
+
 
 		//DirectX処理
 		auto bbIdx = _swapchain->GetCurrentBackBufferIndex();
 
-		D3D12_RESOURCE_BARRIER BarrierDesc = {};
+		/*D3D12_RESOURCE_BARRIER BarrierDesc = {};
 		BarrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;//遷移
 		BarrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 		BarrierDesc.Transition.pResource = _backBuffers[bbIdx];//バックバッファーリソース
@@ -771,8 +787,13 @@ int main()
 		BarrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;//直前はPRESENT状態
 		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;//今から RT 状態
-		
-		_cmdList->ResourceBarrier(1, &BarrierDesc);
+		*/
+
+		auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(_backBuffers[bbIdx],
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		_cmdList->ResourceBarrier(1, &barrier);
+
+		//_cmdList->ResourceBarrier(1, &BarrierDesc);
 		_cmdList->SetPipelineState(_pipelinestate);
 
 		auto rtvH = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
@@ -811,18 +832,18 @@ int main()
 		_cmdList->IASetVertexBuffers(0, 1, &vbView);
 		_cmdList->IASetIndexBuffer(&ibView);
 
-		_cmdList->SetDescriptorHeaps(1, &texDescHeap);
+		_cmdList->SetGraphicsRootSignature(rootsignature);
+		_cmdList->SetDescriptorHeaps(1, &basicDescHeap);
 		_cmdList->SetGraphicsRootDescriptorTable(
 			0,
-			texDescHeap->GetGPUDescriptorHandleForHeapStart());
-		_cmdList->SetGraphicsRootSignature(rootsignature);
+			basicDescHeap->GetGPUDescriptorHandleForHeapStart());
 		_cmdList->DrawIndexedInstanced(6, 1, 0, 0 , 0);
 		
 		//前後だけ入れ替える
-		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-		BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-
-		_cmdList->ResourceBarrier(1, &BarrierDesc);//バリア指定実行
+		barrier = CD3DX12_RESOURCE_BARRIER::Transition(_backBuffers[bbIdx],
+			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+		_cmdList->ResourceBarrier(1,
+			&barrier);
 
 		//命令のクローズ
 		_cmdList->Close();
@@ -841,7 +862,7 @@ int main()
 		}
 
 		_cmdAllocator->Reset();//キューをクリア
-		_cmdList->Reset(_cmdAllocator, nullptr);//再びコマンドリストをためる準備
+		_cmdList->Reset(_cmdAllocator, _pipelinestate);//再びコマンドリストをためる準備
 
 		//フリップ
 		_swapchain->Present(1, 0);
