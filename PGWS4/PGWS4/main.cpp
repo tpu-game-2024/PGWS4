@@ -904,7 +904,7 @@ int main()
 		worldMat = XMMatrixRotationY(angle);
 		mapMatrix->world = worldMat;
 		mapMatrix->viewproj = viewMat * projMat;
-		mapMatrix->time_mat = times;
+		mapMatrix->time_mat = angle;
 
 		//DirectX処理
 		auto bbIdx = _swapchain->GetCurrentBackBufferIndex();
