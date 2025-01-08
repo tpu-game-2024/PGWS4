@@ -3,23 +3,23 @@
   "WorkspaceRootPath": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility||{3B902123-F8A7-4915-9F01-361F908088D0}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicVetexShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicShaderHeader.hlsli||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicShaderHeader.hlsli||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\BasicPixelShader.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{44C96644-AB31-413F-A570-14FCB48CFF6D}|PGWS4\\PGWS4.vcxproj|solutionrelative:PGWS4\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility||{3B902123-F8A7-4915-9F01-361F908088D0}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,7 +29,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -41,64 +41,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "xutility",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
               "ViewState": "AgIAAA4SAAAAAAAAAAAWwB0SAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-01-08T03:01:32.642Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T03:01:32.642Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "BasicVetexShader.hlsl",
               "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl",
               "RelativeDocumentMoniker": "PGWS4\\BasicVetexShader.hlsl",
               "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicVetexShader.hlsl",
               "RelativeToolTip": "PGWS4\\BasicVetexShader.hlsl",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
               "WhenOpened": "2024-11-27T04:45:54.972Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
               "RelativeDocumentMoniker": "PGWS4\\main.cpp",
               "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\main.cpp",
               "RelativeToolTip": "PGWS4\\main.cpp",
-              "ViewState": "AgIAAHQBAAAAAAAAAAAWwIMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJQDAAAAAAAAAAAQwJgDAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-06T02:15:26.063Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "BasicShaderHeader.hlsli",
               "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicShaderHeader.hlsli",
               "RelativeDocumentMoniker": "PGWS4\\BasicShaderHeader.hlsli",
               "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicShaderHeader.hlsli",
               "RelativeToolTip": "PGWS4\\BasicShaderHeader.hlsli",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-27T04:38:49.744Z"
+              "WhenOpened": "2024-11-27T04:38:49.744Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "BasicPixelShader.hlsl",
               "DocumentMoniker": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl",
               "RelativeDocumentMoniker": "PGWS4\\BasicPixelShader.hlsl",
               "ToolTip": "D:\\\u30EF\u30FC\u30AF\u30B7\u30E7\u30C3\u30D73\\PGWS4\\PGWS4\\PGWS4\\BasicPixelShader.hlsl",
               "RelativeToolTip": "PGWS4\\BasicPixelShader.hlsl",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-11-20T03:21:47.569Z"
+              "WhenOpened": "2024-11-20T03:21:47.569Z",
+              "EditorCaption": ""
             }
           ]
         }
