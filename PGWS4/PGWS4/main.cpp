@@ -727,6 +727,12 @@ int main()
 	scissorrect.right = scissorrect.left + window_width;
 	scissorrect.bottom = scissorrect.top + window_Height;
 
+	struct MatricesData
+	{
+		XMMATRIX world;
+		XMMATRIX viewproj;
+	};
+
 
 	TexMetadata metadata = {};
 	ScratchImage scratchImg = {};
@@ -824,7 +830,7 @@ int main()
 	);
 	ID3D12Resource* constBuff = nullptr;
 	heapprop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	resdesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(XMMATRIX) + 0xff) & ~0xff);
+	resdesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(MatricesData) + 0xff) & ~0xff);
 	result = _dev->CreateCommittedResource(
 		&heapprop,
 		D3D12_HEAP_FLAG_NONE,
@@ -834,9 +840,10 @@ int main()
 		IID_PPV_ARGS(&constBuff)
 	);
 
-	XMMATRIX* mapMatrix;//マップ先を示すポインタ
+	MatricesData* mapMatrix;//マップ先を示すポインタ
 	result = constBuff->Map(0, nullptr, (void**)&mapMatrix);//マップ
-	*mapMatrix = worldMat * viewMat * projMat;
+	mapMatrix->world = worldMat;
+	mapMatrix->viewproj = viewMat * projMat;
 
 	ID3D12DescriptorHeap* basicDescHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
@@ -890,7 +897,8 @@ int main()
 
 		angle += 0.1f;
 		worldMat = XMMatrixRotationY(angle);
-		*mapMatrix = worldMat * viewMat * projMat;
+		mapMatrix->world = worldMat;
+		mapMatrix->viewproj = viewMat * projMat;
 
 
 		//DirectX処理
