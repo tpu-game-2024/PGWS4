@@ -348,7 +348,7 @@ int main()
 	std::vector<PMD_VERTEX>vertices(vertNum);
 	for (unsigned int i = 0; i < vertNum; i++)
 	{
-		fread(&vertices[i], vertices.size(), 1, fp);
+		fread(&vertices[i], pmdvertex_size, 1, fp);
 	}
 	
 
@@ -368,8 +368,6 @@ int main()
 	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 	vertBuff->Unmap(0, nullptr);
 
-	fclose(fp);
-
 
 
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
@@ -377,11 +375,20 @@ int main()
 	vbView.SizeInBytes = static_cast<UINT>(vertices.size() * sizeof(PMD_VERTEX));//全バイト数
 	vbView.StrideInBytes = sizeof(vertices[0]);//１頂点あたりのバイト数
 
+//	unsigned short indices[] = {
+//		0, 1, 2,
+//		2, 1, 3
+//	};
+	
+	unsigned int indecesNum;
+	fread(&indecesNum, sizeof(indecesNum), 1, fp);
 
-	unsigned short indices[] = {
-		0, 1, 2,
-		2, 1, 3
-	};
+	std::vector<unsigned short> indices;
+	indices.resize(indecesNum);
+	fread(indices.data(), indices.size() * sizeof(indices[0]), 1,fp);
+
+	fclose(fp);
+
 
 	/*unsigned short indices[] = {
 		0, 2, 3, // 左下の三角形
@@ -390,9 +397,9 @@ int main()
 	};*/
 
 	ID3D12Resource* idxBuff = nullptr;
-	//resdesc.Width = sizeof(indices);
 	heapprop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	resdesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(indices));
+	resdesc.Width = indices.size() * sizeof(indices[0]);
 	result = _dev->CreateCommittedResource(
 		&heapprop,
 		D3D12_HEAP_FLAG_NONE,
@@ -410,7 +417,7 @@ int main()
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
 	ibView.BufferLocation = idxBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeof(indices);
+	ibView.SizeInBytes = indices.size() * sizeof(indices[0]);
 
 
 	ID3DBlob* _vsBlob = nullptr;
@@ -545,7 +552,7 @@ int main()
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);//レイアウト配列の要素数
 
 	gpipeline.IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
-	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;//三角形で構成
+	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;//三角形で構成
 
 	gpipeline.NumRenderTargets = 1;
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -886,7 +893,7 @@ int main()
 		_cmdList->RSSetScissorRects(1, &scissorrect);
 		_cmdList->SetGraphicsRootSignature(rootsignature);
 
-		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
+		_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_cmdList->IASetVertexBuffers(0, 1, &vbView);
 		_cmdList->IASetIndexBuffer(&ibView);
 
@@ -895,8 +902,8 @@ int main()
 		_cmdList->SetGraphicsRootDescriptorTable(
 			0,
 			basicDescHeap->GetGPUDescriptorHandleForHeapStart());
-		//_cmdList->DrawIndexedInstanced(6, 1, 0, 0 , 0);
-		_cmdList->DrawInstanced(vertNum, 1, 0, 0);
+		_cmdList->DrawIndexedInstanced(indecesNum, 1, 0, 0 , 0);
+//		_cmdList->DrawInstanced(vertNum, 1, 0, 0);
 
 		//前後だけ入れ替える
 		barrier = CD3DX12_RESOURCE_BARRIER::Transition(_backBuffers[bbIdx],
