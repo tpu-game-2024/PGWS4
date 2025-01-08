@@ -12,4 +12,5 @@ cbuffer cbuff0 : register(b0)
 {
     matrix world;
     matrix viewproj;
+    float time_mat;
 };

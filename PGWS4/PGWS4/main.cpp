@@ -731,6 +731,7 @@ int main()
 	{
 		XMMATRIX world;
 		XMMATRIX viewproj;
+		float time_mat;
 	};
 
 
@@ -844,6 +845,7 @@ int main()
 	result = constBuff->Map(0, nullptr, (void**)&mapMatrix);//マップ
 	mapMatrix->world = worldMat;
 	mapMatrix->viewproj = viewMat * projMat;
+	
 
 	ID3D12DescriptorHeap* basicDescHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
@@ -881,6 +883,8 @@ int main()
 
 	MSG msg = {};//メッセージの種類やウィンドウハンドル、送信者などの情報
 	float angle = 0.0f;
+	float times = 0.0f;
+	float deltaTime = 0.016f;
 	//メッセージループ
 	while (true)
 	{
@@ -895,11 +899,12 @@ int main()
 			break;
 		}
 
-		angle += 0.1f;
+		times += deltaTime;
+		angle += 0.01f;
 		worldMat = XMMatrixRotationY(angle);
 		mapMatrix->world = worldMat;
 		mapMatrix->viewproj = viewMat * projMat;
-
+		mapMatrix->time_mat = times;
 
 		//DirectX処理
 		auto bbIdx = _swapchain->GetCurrentBackBufferIndex();
