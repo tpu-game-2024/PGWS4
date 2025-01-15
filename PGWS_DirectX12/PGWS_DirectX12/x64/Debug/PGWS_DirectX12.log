@@ -1,5 +1,8 @@
-﻿  compilation object save succeeded; see D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicPixelShader.cso
+﻿D:\�h�L�������`E��w\����\�O�N\�v���O�������[�N�V���`E?E�W\PGWS4\PGWS_DirectX12\PGWS_DirectX12\BasicPixelShader.hlsl(6,24-48): warning X3206: 'dot': implicit truncation of vector type
+  
+  compilation object save succeeded; see D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicPixelShader.cso
   compilation object save succeeded; see D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\BasicVertexShader.cso
   ソース.cpp
-D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\PGWS_DirectX12\ソース.cpp(267,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\PGWS_DirectX12\ソース.cpp(337,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\PGWS_DirectX12\ソース.cpp(444,38): warning C4267: '=': 'size_t' から 'UINT' に変換しました。データが失われているかもしれません。
   PGWS_DirectX12.vcxproj -> D:\ドキュメント\大学\授業\三年\プログラムワークショップⅣ\PGWS4\PGWS_DirectX12\x64\Debug\PGWS_DirectX12.exe

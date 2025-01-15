@@ -2,6 +2,7 @@
 struct Output
 {
     float4 svpos : SV_Position; // システム用頂点座標
+    float4 normal : NORMAL; // 法線ベクトル
     float2 uv : TEXCOORD; // uv値
 };
 
@@ -10,12 +11,6 @@ SamplerState smp : register(s0); // 0番スロットに設定されてサンプラー
 
 cbuffer cbuff0 : register(b0)
 {
-    matrix mat;
+    matrix world; // ワールド変換行列
+    matrix viewproj; // ビュープロジェクション行列
 };
-
-//struct Matrix
-//{
-//    matrix mat;
-//};
-
-//ConstantBuffer<Matrix> m : register(b0);

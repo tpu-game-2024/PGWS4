@@ -20,15 +20,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicVertexShader.hlsl">
+    <FxCompile Include="BasicPixelShader.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="BasicPixelShader.hlsl">
+    <FxCompile Include="BasicVertexShader.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicShaderHeader.hlsli">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="BasicType.hlsli">
       <Filter>ヘッダー ファイル</Filter>
     </None>
   </ItemGroup>
